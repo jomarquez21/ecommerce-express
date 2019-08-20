@@ -1,11 +1,17 @@
 const express = require('express');
 const path = require('path');
 const productsApiRouter = require('./routes/api/products')
+const bodyParser = require('body-parser');
+
 const app = express();
 const router = express.Router();
 
+// Configuracion de las vistas a usar
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// Configuracion para parsear el body a json
+app.set(bodyParser.json());
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
 

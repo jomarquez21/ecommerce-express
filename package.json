@@ -5,6 +5,7 @@
   "author": "Jose Enrique Marquez <jmrqz21@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1"
   },
   "scripts": {
