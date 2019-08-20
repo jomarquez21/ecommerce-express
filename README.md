@@ -1,2 +1,2 @@
 # ecommerce-express
-Learning express
+Learning to use `Express`
