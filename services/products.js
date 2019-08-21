@@ -1,4 +1,4 @@
-const productsMock = require('./../utils/mock/products');
+const productsMock = require('./../utils/mock/products')
 
 class ProductService {
   constructor() {
