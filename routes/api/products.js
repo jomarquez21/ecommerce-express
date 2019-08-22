@@ -1,4 +1,8 @@
 const express = require('express');
+const bodyParser = require('body-parser')
+
+// create application/json parser
+var jsonParser = bodyParser.json()
 
 const ProductService = require('./../../services/products');
 
@@ -21,7 +25,7 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-router.get('/:productId', async function(req, res) {
+router.get('/:productId', async function(req, res, next) {
   const {params: {productId}} = req;
 
   try {
@@ -33,7 +37,7 @@ router.get('/:productId', async function(req, res) {
   }
 });
 
-router.post('/', async function(req, res) {
+router.post('/', jsonParser, async function(req, res, next) {
   const {body: product} = req;
 
   try {
@@ -45,7 +49,7 @@ router.post('/', async function(req, res) {
   }
 });
 
-router.put('/:productId', async function(req, res) {
+router.put('/:productId', jsonParser, async function(req, res, next) {
   const {params: {productId}, body: product} = req;
 
   try {
@@ -57,7 +61,7 @@ router.put('/:productId', async function(req, res) {
   }
 });
 
-router.delete('/:productId', async function(req, res) {
+router.delete('/:productId', async function(req, res, next) {
   const {params: {productId}} = req;
 
   try {
