@@ -5,6 +5,7 @@ const boom = require('boom');
 
 const {config} = require('./config');
 const productsApiRouter = require('./routes/api/products');
+const authApiRouter = require('./routes/api/auth');
 const productRouter = require('./routes/views/products');
 const {logError, clientErrorHandler, errorHandler, wrapErrors} = require('./utils/middleware/errorHandler');
 const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
@@ -28,6 +29,7 @@ app.get('/', function(req, res) {
 
 app.use('/products', productRouter);
 app.use('/api/products', productsApiRouter);
+app.use('/api/auth', authApiRouter);
 
 app.use(function(req, res, next) {
   if (isRequestAjaxOrApi(req)) {

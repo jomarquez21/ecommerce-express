@@ -1,5 +1,6 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
 // create application/json parser
 var jsonParser = bodyParser.json()
@@ -9,6 +10,9 @@ const ProductService = require('./../../services/products');
 const {createProductSchema, productIdSchema, productTagSchema, updateProductSchema} = require('./../../utils/schemas/product');
 
 const validation = require('./../../utils/middleware/validationHandler');
+
+// JWT strategy
+require('./../../utils/auth/strategies/jwt');
 
 const router = express.Router();
 
@@ -52,7 +56,7 @@ router.post('/', jsonParser, validation(createProductSchema), async function(req
   }
 });
 
-router.put('/:productId', jsonParser, validation({productId: productIdSchema}, 'params'), validation(updateProductSchema), async function(req, res, next) {
+router.put('/:productId', passport.authenticate('jwt', {session: false}), jsonParser, validation({productId: productIdSchema}, 'params'), validation(updateProductSchema), async function(req, res, next) {
   const {params: {productId}, body: product} = req;
 
   try {
@@ -64,7 +68,7 @@ router.put('/:productId', jsonParser, validation({productId: productIdSchema}, '
   }
 });
 
-router.delete('/:productId', async function(req, res, next) {
+router.delete('/:productId', passport.authenticate('jwt', {session: false}), async function(req, res, next) {
   const {params: {productId}} = req;
 
   try {
