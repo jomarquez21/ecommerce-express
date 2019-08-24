@@ -2,8 +2,10 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
+const {config} = require('./config');
 const productsApiRouter = require('./routes/api/products');
 const productRouter = require('./routes/views/products');
+const {logError, clientErrorHandler, errorHandler} = require('./utils/middleware/errorHandler');
 
 const app = express();
 
@@ -25,6 +27,11 @@ app.get('/', function(req, res) {
 app.use('/products', productRouter);
 app.use('/api/products', productsApiRouter);
 
-const server = app.listen(8000, function() {
+// Error handler
+app.use(logError);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+
+const server = app.listen(config.port, function() {
   console.log(`Listening http://localhost:${server.address().port}`);
-})
+});

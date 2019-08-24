@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    .container.main-content
+        article.message.is-danger
+            .message-body
+                h1.title.has-text-danger= err.message
+                h2.subtitle.has-text-danger= err.status
+                if err.stack
+                    pre.content.is-small #{err.stack}
