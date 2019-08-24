@@ -10,6 +10,8 @@ router.get('/', async function(req, res, next) {
   const {query: {tags}} = req;
 
   try {
+
+    myUndefinedFunction();
     const products = await productService.getProducts({tags});
     
     res.render('products', {products});

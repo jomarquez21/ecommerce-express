@@ -6,6 +6,10 @@ var jsonParser = bodyParser.json()
 
 const ProductService = require('./../../services/products');
 
+const {createProductSchema, productIdSchema, productTagSchema, updateProductSchema} = require('./../../utils/schemas/product');
+
+const validation = require('./../../utils/middleware/validationHandler');
+
 const router = express.Router();
 
 const productService = new ProductService();
@@ -15,7 +19,6 @@ const response = (data, message) => ({data, message});
 router.get('/', async function(req, res, next) {
   // const {query: {query}} = req;
   const {query: {tags}} = req;
-
   try {
     const data = await productService.getProducts({tags});
     
@@ -37,7 +40,7 @@ router.get('/:productId', async function(req, res, next) {
   }
 });
 
-router.post('/', jsonParser, async function(req, res, next) {
+router.post('/', jsonParser, validation(createProductSchema), async function(req, res, next) {
   const {body: product} = req;
 
   try {
@@ -49,7 +52,7 @@ router.post('/', jsonParser, async function(req, res, next) {
   }
 });
 
-router.put('/:productId', jsonParser, async function(req, res, next) {
+router.put('/:productId', jsonParser, validation({productId: productIdSchema}, 'params'), validation(updateProductSchema), async function(req, res, next) {
   const {params: {productId}, body: product} = req;
 
   try {

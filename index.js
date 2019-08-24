@@ -1,11 +1,13 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const boom = require('boom');
 
 const {config} = require('./config');
 const productsApiRouter = require('./routes/api/products');
 const productRouter = require('./routes/views/products');
-const {logError, clientErrorHandler, errorHandler} = require('./utils/middleware/errorHandler');
+const {logError, clientErrorHandler, errorHandler, wrapErrors} = require('./utils/middleware/errorHandler');
+const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
 
 const app = express();
 
@@ -27,8 +29,19 @@ app.get('/', function(req, res) {
 app.use('/products', productRouter);
 app.use('/api/products', productsApiRouter);
 
+app.use(function(req, res, next) {
+  if (isRequestAjaxOrApi(req)) {
+    const {output: {statusCode, payload}} = boom.notFound();
+
+    res.status(statusCode).json(payload);
+  }
+
+  res.status(404).render('404');
+});
+
 // Error handler
 app.use(logError);
+app.use(wrapErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);
 
