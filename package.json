@@ -5,7 +5,7 @@
   "author": "Jose Enrique Marquez <jmrqz21@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "boom": "^7.3.0",
     "dotenv": "^8.1.0",
